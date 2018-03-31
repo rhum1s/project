@@ -722,7 +722,7 @@ if __name__ == "__main__":
     window = Display(SCREEN_WIDTH, SCREEN_HEIGHT, "Project", bg_picture="pictures/main.jpg")
 
     # Creates player
-    player = Character(PLAYER_START_POS_X, PLAYER_START_POS_Y, "pictures/alienblaster.png",
+    player = Character(PLAYER_START_POS_X, PLAYER_START_POS_Y, "pictures/player/run/r_028.png",
                        sparkle_image="pictures/alienblaster_sparkle.png")
     all_sprites_list.add(player)
 
