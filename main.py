@@ -11,7 +11,7 @@ import random
 from game_vars import *
 from display import Display, Button, pause, quit_game
 from winning_conditions import ScoreBoard
-from characters import Human
+from characters import Character
 
 
 def manage_inputs(events):
@@ -165,22 +165,22 @@ def make_intruders_appear(type_of_intruder):
         # Empty intruders coordinates list used for intruders to do not overlap
         intruders_coordinates_x, intruders_coordinates_y = [], []
 
-        for i in xrange(random.randint(0, RATE_OF_INTRUSIONS)):  # Create random number of intruders
+        for i in range(random.randint(0, RATE_OF_INTRUSIONS)):  # Create random number of intruders
 
             # Create x, y random value not already in the appearing list (overlapping)
-            x_values = [i for i in xrange(SCREEN_WIDTH - INTRUDER_PICTURE_WIDTH) if i not in intruders_coordinates_x]
-            y_values = [i for i in xrange(-60 - INTRUDER_PICTURE_HEIGHT, -5 - INTRUDER_PICTURE_HEIGHT)
+            x_values = [i for i in range(SCREEN_WIDTH - INTRUDER_PICTURE_WIDTH) if i not in intruders_coordinates_x]
+            y_values = [i for i in range(-60 - INTRUDER_PICTURE_HEIGHT, -5 - INTRUDER_PICTURE_HEIGHT)
                         if i not in intruders_coordinates_y]
 
             x = random.choice(x_values)
             y = random.choice(y_values)
 
             # Update intruders appearing coordinates list to not place another one overlapping
-            for ii in xrange(INTRUDER_PICTURE_WIDTH + 2):  # Add a margin
+            for ii in range(INTRUDER_PICTURE_WIDTH + 2):  # Add a margin
                 intruders_coordinates_x.append(x + (ii+1))
                 intruders_coordinates_x.append(x - (ii+1))
 
-            for ii in xrange(INTRUDER_PICTURE_HEIGHT + 2):  # Add a margin
+            for ii in range(INTRUDER_PICTURE_HEIGHT + 2):  # Add a margin
                 intruders_coordinates_y.append(y + (ii+1))
                 intruders_coordinates_y.append(y - (ii+1))
 
@@ -721,7 +721,7 @@ if __name__ == "__main__":
     window = Display(SCREEN_WIDTH, SCREEN_HEIGHT, "Project", bg_picture="pictures/main.jpg")
 
     # Creates player
-    player = Human(PLAYER_START_POS_X, PLAYER_START_POS_Y, "pictures/alienblaster.png",
+    player = Character(PLAYER_START_POS_X, PLAYER_START_POS_Y, "pictures/alienblaster.png",
                        sparkle_image="pictures/alienblaster_sparkle.png")
     all_sprites_list.add(player)
 

@@ -4,7 +4,7 @@ Will not be modified during game.
 """
 
 # Screen definition
-SCREEN_WIDTH = 800
+SCREEN_WIDTH = 1400
 SCREEN_HEIGHT = 800
 
 # Colors

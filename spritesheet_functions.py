@@ -15,8 +15,8 @@ def create_frames(sprite_sheet_picture, frames_x, frames_y):
     :return: list of frames (images)
     """
     # sprite_sheet = SpriteSheet(sprite_sheet_picture)  # Load image as a SpriteSheet object
-    # for y_image in xrange(frames_y):  # N images to take in x
-    #     for x_image in xrange(frames_x):  # N images to take  in y
+    # for y_image in range(frames_y):  # N images to take in x
+    #     for x_image in range(frames_x):  # N images to take  in y
     #         frames.append(sprite_sheet.get_image(
     #             sprite_sheet.width / frames_x * x_image,
     #             sprite_sheet.height / frames_y * y_image,

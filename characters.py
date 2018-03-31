@@ -7,12 +7,12 @@ import random
 from game_vars import *
 from spritesheet_functions import create_frames
 
-class Human(pygame.sprite.Sprite):
+class Character(pygame.sprite.Sprite):
     """
-    Default space ship specifications.
+    Simple picture moving
     """
     def __init__(self, x, y, image, speed=4, sparkle_image=""):
-        super(Human, self).__init__()
+        super(Character, self).__init__()
 
         self.image = pygame.image.load(image)  # .convert()
         self.image_orig = image  # To revert if image change
