@@ -43,81 +43,81 @@ def manage_inputs(events):
 def manage_events():
     global LOOSE
 
-    # If player's ammo hit an intruder explode it and add score
-    for ammo in player_ammo_sprites_list:
+    # # If player's ammo hit an intruder explode it and add score
+    # for ammo in player_ammo_sprites_list:
 
-        # Create a list of intruders not already exploding and check collisions with ammo
-        intruders_not_exploding = [intruder for intruder in intruders_sprites_list if intruder.exploded is False]
-        intruders_hit_list = pygame.sprite.spritecollide(ammo, intruders_not_exploding, False)  # Do kill set to False
+    #     # Create a list of intruders not already exploding and check collisions with ammo
+    #     intruders_not_exploding = [intruder for intruder in intruders_sprites_list if intruder.exploded is False]
+    #     intruders_hit_list = pygame.sprite.spritecollide(ammo, intruders_not_exploding, False)  # Do kill set to False
 
-        # Set intruders hit to explode (then explosion managed)
-        [intruder.explode() for intruder in intruders_hit_list]
+    #     # Set intruders hit to explode (then explosion managed)
+    #     [intruder.explode() for intruder in intruders_hit_list]
 
-        # Ammo must be destroyed too if has hit
-        if len(intruders_hit_list) > 0:
-            ammo.explode()
+    #     # Ammo must be destroyed too if has hit
+    #     if len(intruders_hit_list) > 0:
+    #         ammo.explode()
 
-        # Increase score
-        score.increase_score(len(intruders_hit_list))
+    #     # Increase score
+    #     score.increase_score(len(intruders_hit_list))
 
-    # If player's ammo hit an intruder's ammo
-    for player_ammo in player_ammo_sprites_list:
+    # # If player's ammo hit an intruder's ammo
+    # for player_ammo in player_ammo_sprites_list:
 
-        # Create a list of intruders not already exploding and check collisions with ammo
-        # intruders_not_exploding = [intruder for intruder in intruders_sprites_list if intruder.exploded is False]
-        intruders_ammo_hit_list = pygame.sprite.spritecollide(player_ammo, intruders_ammo_sprites_list, False)
+    #     # Create a list of intruders not already exploding and check collisions with ammo
+    #     # intruders_not_exploding = [intruder for intruder in intruders_sprites_list if intruder.exploded is False]
+    #     intruders_ammo_hit_list = pygame.sprite.spritecollide(player_ammo, intruders_ammo_sprites_list, False)
 
-        # Set intruders hit to explode (then explosion managed)
-        # [ammo.explode() for ammo in intruders_ammo_hit_list]
-        for ammo in intruders_ammo_hit_list:
-            if ammo.exploded is False:
-                print("MUST EXPLODE")
-                ammo.explode()
+    #     # Set intruders hit to explode (then explosion managed)
+    #     # [ammo.explode() for ammo in intruders_ammo_hit_list]
+    #     for ammo in intruders_ammo_hit_list:
+    #         if ammo.exploded is False:
+    #             print("MUST EXPLODE")
+    #             ammo.explode()
 
-        if len(intruders_ammo_hit_list) > 0:
-            player_ammo.explode()
-        # FIXME: One of the two ammunition must explode, the other one be killed.
+    #     if len(intruders_ammo_hit_list) > 0:
+    #         player_ammo.explode()
+    #     # FIXME: One of the two ammunition must explode, the other one be killed.
 
     # If intruder's ammo hit player
     if player.exploded is False:
 
-        for ammo in intruders_ammo_sprites_list:
+        pass        # for ammo in intruders_ammo_sprites_list:
 
-            # Create a list of intruders not already exploding and check collisions with ammo
-            player_hits_list = pygame.sprite.spritecollide(ammo, [player], False)  # Do kill set to False
+        #     # Create a list of intruders not already exploding and check collisions with ammo
+        #     player_hits_list = pygame.sprite.spritecollide(ammo, [player], False)  # Do kill set to False
 
-            # Player loose life or explode
-            if len(player_hits_list) > 0 and player.sparkle is False:
-                # player.explode()
-                score.decrease_lives(1)
-                player.lost_life()
+        #     # Player loose life or explode
+        #     if len(player_hits_list) > 0 and player.sparkle is False:
+        #         # player.explode()
+        #         score.decrease_lives(1)
+        #         player.lost_life()
 
-            # Ammo must be destroyed too if has hit (or ammo kill and player explode)
-            if len(player_hits_list) > 0:
-                if int(score.lives) >= 0:
-                    ammo.explode()
-                else:
-                    ammo.kill()
+        #     # Ammo must be destroyed too if has hit (or ammo kill and player explode)
+        #     if len(player_hits_list) > 0:
+        #         if int(score.lives) >= 0:
+        #             ammo.explode()
+        #         else:
+        #             ammo.kill()
 
-    # If intruder invade earth decrease score
-    for intruder in intruders_sprites_list:
-        if intruder.rect.y >= SCREEN_HEIGHT:
-            score.decrease_score(1)
-            intruder.kill()  # intruder.remove()
+    # # If intruder invade earth decrease score
+    # for intruder in intruders_sprites_list:
+    #     if intruder.rect.y >= SCREEN_HEIGHT:
+    #         score.decrease_score(1)
+    #         intruder.kill()  # intruder.remove()
 
-    # If intruder hits player
-    intruders_able_to_hit = [intruder for intruder in intruders_sprites_list if intruder.has_hit_player is False]
-    intruders_hitting_player = pygame.sprite.spritecollide(player, intruders_able_to_hit, False)
-    if len(intruders_hitting_player) > 0 and player.sparkle is False:  # Loose life only if not sparkling
-        score.decrease_lives(1)
-        player.lost_life()
-    for intruder in intruders_hitting_player:
-        if intruder.__class__.__name__ != 'Boss':
-            intruder.has_hit_player = True
-            if int(score.lives) >= 0:  # Intruder explode if player still has lives otherwise player explode.
-                intruder.explode()
-            else:
-                intruder.kill()
+    # # If intruder hits player
+    # intruders_able_to_hit = [intruder for intruder in intruders_sprites_list if intruder.has_hit_player is False]
+    # intruders_hitting_player = pygame.sprite.spritecollide(player, intruders_able_to_hit, False)
+    # if len(intruders_hitting_player) > 0 and player.sparkle is False:  # Loose life only if not sparkling
+    #     score.decrease_lives(1)
+    #     player.lost_life()
+    # for intruder in intruders_hitting_player:
+    #     if intruder.__class__.__name__ != 'Boss':
+    #         intruder.has_hit_player = True
+    #         if int(score.lives) >= 0:  # Intruder explode if player still has lives otherwise player explode.
+    #             intruder.explode()
+    #         else:
+    #             intruder.kill()
 
     # Loosing conditions
     if ((int(score.lives) < 0) or (int(score.score) < 0)) and LOOSE is False:
@@ -131,11 +131,12 @@ def manage_events():
     # Winning conditions depending on scene max score:
     if int(score.score) >= manager.scene.max_score and LOOSE is False and player.exploded is False:
         manager.go_to(WinningScreen())
-    # Winning boss
-    for intruder in intruders_sprites_list:
-        if intruder.__class__.__name__ == 'Boss':
-            if intruder.died is True:
-                manager.go_to(WinningScreenFinal())
+
+    # # Winning boss
+    # for intruder in intruders_sprites_list:
+    #     if intruder.__class__.__name__ == 'Boss':
+    #         if intruder.died is True:
+    #             manager.go_to(WinningScreenFinal())
 
 
 def move_sprites():
@@ -272,7 +273,7 @@ class StartupScreen(object):
         """
         Scene manager change scene
         """
-        manager.go_to(Level1())  # FIXME: Must go to level 1 only for testing
+        manager.go_to(Level1()) 
 
 
 class LoosingScreen(object):
@@ -658,7 +659,7 @@ class Level1(object):
         LEVEL = 1
 
         # Make sure the background image is the good one
-        window.modify_background_image("pictures/sky_1024x768.jpg")
+        window.modify_background_image("pictures/level1_bgd.png")
 
         # Mouse invisible
         pygame.mouse.set_visible(False)
@@ -671,9 +672,9 @@ class Level1(object):
 
         self.max_score = 25  # Score to win this scene
 
-        # Reset intrusions count and set rate of intrusions
-        INTRUSIONS_COUNT = 0
-        RATE_OF_INTRUSIONS = 3
+        # # Reset intrusions count and set rate of intrusions
+        # INTRUSIONS_COUNT = 0
+        # RATE_OF_INTRUSIONS = 3
 
     def render(self, the_window):
         the_window.prepare_draw()
@@ -684,12 +685,12 @@ class Level1(object):
     @staticmethod
     def update():
         # --- Game logic
-        make_intruders_appear("Intruder")
+        # make_intruders_appear("Intruder")
         move_sprites()
 
         # FIXME: The manage events and player events order is VERY important. Put in functions?
         manage_events()  # If sprites collides
-        [intruder.manage_explosion() for intruder in intruders_sprites_list]  # Manage possible intruders explosion
+        # [intruder.manage_explosion() for intruder in intruders_sprites_list]  # Manage possible intruders explosion
         player.manage_sparkling()
         player.manage_explosion()
 

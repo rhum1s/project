@@ -10,8 +10,8 @@ from global_vars import *
 all_sprites_list = pygame.sprite.Group()
 
 # Player default start position
-PLAYER_START_POS_X = (SCREEN_WIDTH / 2) - 35
-PLAYER_START_POS_Y = SCREEN_HEIGHT - (70 * 2)
+PLAYER_START_POS_X = SCREEN_WIDTH - 70 # (SCREEN_WIDTH / 2) - 35
+PLAYER_START_POS_Y = SCREEN_HEIGHT - 150 # SCREEN_HEIGHT - (70 * 2)
 
 # Player characteristics
 PLAYER_STARTING_LIVES = 3 
