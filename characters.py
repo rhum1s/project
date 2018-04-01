@@ -11,7 +11,7 @@ class Character(pygame.sprite.Sprite):
     """
     Simple picture moving
     """
-    def __init__(self, x, y, image, speed=4, sparkle_image=""):
+    def __init__(self, x, y, image, speed=4, sparkle_image="", restrict_cells=None):
         super(Character, self).__init__()
 
         self.image = pygame.image.load(image)  # .convert()
@@ -24,6 +24,7 @@ class Character(pygame.sprite.Sprite):
 
         self.can_move = True
         self.speed = speed
+        self.restrict_cells = restrict_cells
         self.fire_timer = 0  # Used with rate_of_fire of ammunition
 
         # Explosion vars
@@ -53,31 +54,47 @@ class Character(pygame.sprite.Sprite):
         If out of screen adjust on the border
         :return: Nothing
         """
-        if self.rect.x < 0:
-            self.rect.x = 0
-        if self.rect.y < SCREEN_HEIGHT / 2:
-            self.rect.y = SCREEN_HEIGHT / 2
-        if self.rect.x > SCREEN_WIDTH - self.width:
 
-            self.rect.x = SCREEN_WIDTH - self.width
+        # left
+        if self.rect.x < 0:
+            self.rect.x = 0       
+        # Bottom
         if self.rect.y > SCREEN_HEIGHT - self.height:
             self.rect.y = SCREEN_HEIGHT - self.height
 
-    def move(self, direction):
+        # Right
+        if self.rect.x > SCREEN_WIDTH - self.width:
+            self.rect.x = SCREEN_WIDTH - self.width            
+
+        # Top
+        if self.rect.y < 0:
+            self.rect.y = 0  
+
+    def move(self, direction, restrict_cells=None):
         """
         Move according to speed and a given direction
+        Check restricted cells
         :param direction: text
         :return: Nothing
         """
+        
         if self.can_move is True:
+
             if direction == "forward":
-                self.rect.y -= self.speed
-            if direction == "backward":
-                self.rect.y += self.speed
-            if direction == "left":
-                self.rect.x -= self.speed
-            if direction == "right":
-                self.rect.x += self.speed
+                if ((self.rect.x, self.rect.y - self.speed)) not in self.restrict_cells and ((self.rect.x, self.rect.y - self.speed + self.height)) not in self.restrict_cells:
+                    self.rect.y -= self.speed
+
+            if direction == "backward":            
+                if ((self.rect.x, self.rect.y + self.speed)) not in self.restrict_cells and ((self.rect.x, self.rect.y - self.speed + self.height)) not in self.restrict_cells:
+                    self.rect.y += self.speed
+
+            if direction == "left":            
+                if ((self.rect.x - self.speed, self.rect.y)) not in self.restrict_cells and ((self.rect.x - self.speed + self.width, self.rect.y)) not in self.restrict_cells:
+                    self.rect.x -= self.speed
+
+            if direction == "right":               
+                if ((self.rect.x + self.speed, self.rect.y)) not in self.restrict_cells and ((self.rect.x - self.speed + self.width, self.rect.y)) not in self.restrict_cells:
+                    self.rect.x += self.speed
 
             self.adjust_position()
 

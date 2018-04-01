@@ -6,6 +6,7 @@ Project
 __version__ = "0.0.1"
 
 import random
+from PIL import Image
 
 # Load program modules
 from game_vars import *
@@ -660,6 +661,21 @@ class Level1(object):
 
         # Make sure the background image is the good one
         window.modify_background_image("pictures/level1_bgd.png")
+
+        # Computes background restricted cells (water) output: [(1392, 666),..]
+        picture = Image.open('pictures/level1_bgd.png')
+        restrict_cells = []
+        width, height = picture.size
+        for x in range(width):
+            for y in range(height):
+                if picture.getpixel((x,y)) == (137, 175, 205):
+                    restrict_cells.append((x,y))
+        picture.close() 
+        # for cell in restrict_cells: # -- Show restricted cells 
+        #     window.background_image.set_at(cell, (255,255,0)) 
+
+        # Pass restricted cells to player
+        player.restrict_cells = restrict_cells   
 
         # Mouse invisible
         pygame.mouse.set_visible(False)
